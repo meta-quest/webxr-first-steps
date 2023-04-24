@@ -1,0 +1,49 @@
+/*
+  Copyright (c) Meta Platforms, Inc. and affiliates.
+
+  This source code is licensed under the MIT license found in the
+  LICENSE file in the root directory of this source tree.
+*/
+
+#ui-panel {
+	position: fixed;
+	bottom: 0;
+	border-radius: 0;
+	color: white;
+	background-color: #333333;
+	opacity: 0.9;
+	width: 100vw;
+	transition: all 0.7s;
+}
+
+#ui-panel:hover {
+	opacity: 1;
+}
+
+.action-button {
+	color: #a7a7a7;
+	border-color: #a7a7a7;
+	border-radius: 0;
+	margin-top: 5px;
+}
+
+.action-button:first-child {
+	margin-right: 5px;
+}
+
+.action-button:hover {
+	color: #ffffff;
+	border-color: #949494;
+	background-color: #949494;
+}
+
+#model-select {
+	display: inline-block;
+	width: fit-content;
+	background-color: transparent;
+}
+
+#model-select:hover {
+	border-color: #949494;
+	background-color: #949494;
+}
