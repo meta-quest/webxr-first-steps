@@ -14,18 +14,11 @@ import {
 	Object3D,
 } from 'three';
 import { SpinComponent, SpinSystem } from './spin';
-import { System, Type } from '@lastolivegames/becsy';
 
 import { BUTTONS } from 'gamepad-wrapper';
 import { GlobalComponent } from './global';
 import { PlayerComponent } from './player';
-
-export class SpawnComponent {}
-
-SpawnComponent.schema = {
-	position: Type.vector(Type.float64, ['x', 'y', 'z']),
-	quaternion: Type.vector(Type.float64, ['x', 'y', 'z', 'w']),
-};
+import { System } from '@lastolivegames/becsy';
 
 export class SpawnSystem extends System {
 	constructor() {
@@ -33,9 +26,8 @@ export class SpawnSystem extends System {
 		this.globalEntity = this.query((q) => q.current.with(GlobalComponent));
 		this.playerEntity = this.query((q) => q.current.with(PlayerComponent));
 
-		// declare write privilage on following components
+		// declare write privilage on following component
 		this.query((q) => q.current.using(SpinComponent).write);
-		this.query((q) => q.current.using(SpawnComponent).write);
 
 		// specify execution order
 		this.schedule((s) => s.before(SpinSystem));
@@ -48,15 +40,17 @@ export class SpawnSystem extends System {
 		const player = this.playerEntity.current[0].read(PlayerComponent);
 
 		const useHitTest = document.getElementById('use-hit-test').checked;
+		const useAnchor = document.getElementById('use-anchor').checked;
+
+		const spawnData = [];
 
 		if (!useHitTest) {
 			Object.values(player.controllers).forEach((controllerObject) => {
 				const gamepad = controllerObject.gamepadWrapper;
 				if (gamepad.getButtonDown(BUTTONS.XR_STANDARD.TRIGGER)) {
-					// createSpinEntity(global.scene, controllerObject.targetRaySpace, this);
-					this.createEntity(SpawnComponent, {
-						position: controllerObject.targetRaySpace.position.toArray(),
-						quaternion: controllerObject.targetRaySpace.quaternion.toArray(),
+					spawnData.push({
+						position: controllerObject.targetRaySpace.position.clone(),
+						quaternion: controllerObject.targetRaySpace.quaternion.clone(),
 					});
 				}
 			});
@@ -77,14 +71,39 @@ export class SpawnSystem extends System {
 					}
 					const gamepad = controllerObject.gamepadWrapper;
 					if (gamepad.getButtonDown(BUTTONS.XR_STANDARD.TRIGGER)) {
-						this.createEntity(SpawnComponent, {
-							position: this.hitTestTargets[handedness].position.toArray(),
-							quaternion: this.hitTestTargets[handedness].quaternion.toArray(),
+						spawnData.push({
+							position: this.hitTestTargets[handedness].position.clone(),
+							quaternion: this.hitTestTargets[handedness].quaternion.clone(),
 						});
 					}
 				},
 			);
 		}
+
+		spawnData.forEach((transform) => {
+			const objectName = document.getElementById('model-select').value;
+			const object = global.scene.getObjectByName(objectName).clone();
+			object.scale.setScalar(object.userData.arScale);
+
+			this.createEntity(SpinComponent, {
+				object3D: object,
+			});
+			object.userData.arOnly = true;
+
+			if (!useAnchor) {
+				// adjust object transform and directly attach object to scene
+				object.position.copy(transform.position);
+				object.quaternion.copy(transform.quaternion);
+				global.scene.add(object);
+			} else {
+				// create anchor with spawn position and quaternion, and attach object to anchor
+				global.ratk
+					.createAnchor(transform.position, transform.quaternion)
+					.then((anchor) => {
+						anchor.add(object);
+					});
+			}
+		});
 	}
 }
 

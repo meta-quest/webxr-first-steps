@@ -9,13 +9,12 @@ import './styles/index.css';
 
 import { DoubleSide, MeshBasicMaterial } from 'three';
 import { PlayerComponent, PlayerSystem } from './player';
-import { SpawnComponent, SpawnSystem } from './spawner';
 import { SpinComponent, SpinSystem } from './spin';
 
-import { ActualizerSystem } from './actualizer';
 import { GlobalComponent } from './global';
 import { InlineSystem } from './landing';
 import { RealityAccelerator } from 'ratk';
+import { SpawnSystem } from './spawner';
 import { World } from '@lastolivegames/becsy';
 import { setupScene } from './scene';
 
@@ -23,10 +22,8 @@ const worldDef = {
 	defs: [
 		GlobalComponent,
 		PlayerComponent,
-		SpawnComponent,
 		PlayerSystem,
 		SpawnSystem,
-		ActualizerSystem,
 		SpinComponent,
 		SpinSystem,
 		InlineSystem,
