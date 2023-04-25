@@ -18,12 +18,6 @@ import { GlobalComponent } from './global';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { System } from '@lastolivegames/becsy';
 
-const models = {
-	bottle: { path: 'assets/WaterBottle.glb', inlineScale: 0.8, arScale: 1 },
-	avocado: { path: 'assets/Avocado.glb', inlineScale: 1.5, arScale: 1 },
-	fish: { path: 'assets/BarramundiFish.glb', inlineScale: 0.3, arScale: 0.5 },
-	buggy: { path: 'assets/Buggy.glb', inlineScale: 0.002, arScale: 0.002 },
-};
 const CAMERA_ANGULAR_SPEED = Math.PI;
 
 export class InlineSystem extends System {
@@ -33,10 +27,8 @@ export class InlineSystem extends System {
 		this.needsSetup = true;
 	}
 
-	_loadModels(global) {
+	_loadModel(global) {
 		const loader = new GLTFLoader();
-		const modelSelect = document.getElementById('model-select');
-		const modelIds = [];
 		const { camera, scene, renderer } = global;
 		this.container = new Mesh(
 			new IcosahedronGeometry(1, 1),
@@ -44,33 +36,12 @@ export class InlineSystem extends System {
 		);
 		scene.add(this.container);
 		camera.position.set(0, 0.1, 0.4);
-		Object.entries(models).forEach(([name, meta], index) => {
-			loader.load(meta.path, (gltf) => {
-				const model = gltf.scene;
-				this.container.add(model);
-				model.userData.inlineScale = meta.inlineScale;
-				model.userData.arScale = meta.arScale;
-				model.name = name + '-prototype';
-				model.scale.setScalar(model.userData.inlineScale);
-				const opt = document.createElement('option');
-				opt.value = model.name;
-				opt.innerHTML = name;
-				if (index == 0) {
-					opt.selected = true;
-				} else {
-					model.visible = false;
-				}
-				modelSelect.appendChild(opt);
-				modelIds.push(model.id);
-			});
+		loader.load('assets/Prop_Camera.glb', (gltf) => {
+			const model = gltf.scene;
+			this.container.add(model);
+			model.name = 'mesh-prototype';
 		});
-		modelSelect.onchange = function () {
-			Object.keys(models).forEach((name) => {
-				scene.getObjectByName(name + '-prototype').visible = false;
-			});
-			console.log(this.value);
-			scene.getObjectById(parseInt(this.value)).visible = true;
-		};
+
 		camera.zoom = 100;
 		this.orbitControls = new OrbitControls(camera, renderer.domElement);
 		this.orbitControls.target.set(0, 0, 0);
@@ -110,7 +81,7 @@ export class InlineSystem extends System {
 		const global = this.globalEntity.current[0].read(GlobalComponent);
 
 		if (this.needsSetup) {
-			this._loadModels(global);
+			this._loadModel(global);
 			this._setupButtons(global);
 			this.needsSetup = false;
 			return;

@@ -81,9 +81,7 @@ export class SpawnSystem extends System {
 		}
 
 		spawnData.forEach((transform) => {
-			const objectName = document.getElementById('model-select').value;
-			const object = global.scene.getObjectByName(objectName).clone();
-			object.scale.setScalar(object.userData.arScale);
+			const object = global.scene.getObjectByName('mesh-prototype').clone();
 
 			this.createEntity(SpinComponent, {
 				object3D: object,
