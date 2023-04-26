@@ -47,7 +47,18 @@ World.create(worldDef).then((world) => {
 
 	world.createEntity(GlobalComponent, { renderer, camera, scene, ratk });
 
+	let roomCaptureDelayTimer = null;
+	let roomCaptureDone = false;
 	renderer.setAnimationLoop(function () {
+		if (renderer.xr.isPresenting && !roomCaptureDone) {
+			if (roomCaptureDelayTimer == null) {
+				roomCaptureDelayTimer = performance.now();
+			} else if (performance.now() - roomCaptureDelayTimer > 2000) {
+				console.log(renderer.xr.getSession());
+				renderer.xr.getSession().initiateRoomCapture();
+				roomCaptureDone = true;
+			}
+		}
 		ratk.update();
 		renderer.render(scene, camera);
 		if (ecsexecuting == false) {
