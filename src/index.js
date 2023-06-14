@@ -51,7 +51,9 @@ World.create(worldDef).then((world) => {
 	let roomCaptureDone = false;
 	renderer.setAnimationLoop(function () {
 		if (renderer.xr.isPresenting && !roomCaptureDone) {
-			if (roomCaptureDelayTimer == null) {
+			if (ratk.planes.size > 0) {
+				roomCaptureDone = true;
+			} else if (roomCaptureDelayTimer == null) {
 				roomCaptureDelayTimer = performance.now();
 			} else if (performance.now() - roomCaptureDelayTimer > 2000) {
 				console.log(renderer.xr.getSession());
