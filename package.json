@@ -1,0 +1,33 @@
+{
+	"name": "webxr-samples",
+	"private": true,
+	"devDependencies": {
+		"copy-webpack-plugin": "^11.0.0",
+		"css-loader": "^5.2.1",
+		"eslint": "^7.24.0",
+		"eslint-config-prettier": "^8.2.0",
+		"eslint-webpack-plugin": "^2.5.3",
+		"html-webpack-plugin": "^5.3.1",
+		"pre-commit": "^1.2.2",
+		"prettier": "2.2.1",
+		"style-loader": "^2.0.0",
+		"webpack": "^5.33.2",
+		"webpack-cli": "^4.6.0",
+		"webpack-dev-server": "^4.11.1"
+	},
+	"scripts": {
+		"build": "webpack",
+		"serve": "webpack serve",
+		"lint": "eslint ./src",
+		"format": "prettier --write ./src/**/*"
+	},
+	"pre-commit": [
+		"lint"
+	],
+	"dependencies": {
+		"elics": "^0.1.2",
+		"gamepad-wrapper": "1.2.0",
+		"ratk": "0.3.0",
+		"three": "0.159.0"
+	}
+}
