@@ -77,7 +77,7 @@ If accessing via IP address doesn’t work due to network restrictions or firewa
    - Click **Port forwarding...** in Chrome DevTools.
    - Add a rule to forward port `8081` from your computer to your headset.
 
-You can now access the local server on your headset by entering `http://localhost:8081` in the browser. As with the IP address method, you may encounter a certificate warning, which can be dismissed.
+You can now access the local server on your headset by entering `https://localhost:8081` in the browser. As with the IP address method, you may encounter a certificate warning, which can be dismissed.
 
 ### Developing with an Emulator
 
