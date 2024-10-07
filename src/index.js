@@ -42,9 +42,13 @@ function updateScoreDisplay() {
 function setupScene({ scene, camera, renderer, player, controllers }) {
 	const gltfLoader = new GLTFLoader();
 
+	//// Removed for tutorial ///////
+
 	gltfLoader.load('assets/spacestation.glb', (gltf) => {
 		scene.add(gltf.scene);
 	});
+
+	
 
 	gltfLoader.load('assets/blaster.glb', (gltf) => {
 		blasterGroup.add(gltf.scene);
