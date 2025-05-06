@@ -20,7 +20,7 @@ To prepare your development environment and get started with building your WebXR
 1. **Clone this repository**:
 
    ```bash
-   git clone git@github.com:meta-quest/webxr-first-steps.git
+   git clone https://github.com/meta-quest/webxr-first-steps.git
    cd webxr-first-steps
    ```
 
