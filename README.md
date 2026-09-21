@@ -162,5 +162,5 @@ https://github.com/meta-quest/agentic-tools
 Suggested first prompt:
 
 ```text
-Read AGENTS.md, detect what type of Meta Quest sample this is, enable the hzdb MCP server if available, and explain how to build, run, and debug this sample on a Quest device.
+Read AGENTS.md, detect what type of Meta Quest sample this is, enable the metavr MCP server if available, and explain how to build, run, and debug this sample on a Quest device.
 ```

@@ -3,7 +3,7 @@
 Run:
 
 ```sh
-npx -y @meta-quest/hzdb mcp install open-code
+npx -y @meta-quest/metavr mcp install open-code
 ```
 
-Then inspect `AGENTS.md` and use the `hzdb` MCP server for Quest/Horizon OS tasks.
+Then inspect `AGENTS.md` and use the `metavr` MCP server for Quest/Horizon OS tasks.

@@ -1,9 +1,9 @@
 {
   "servers": {
-    "hzdb": {
+    "metavr": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@meta-quest/hzdb", "mcp", "server"]
+      "args": ["-y", "@meta-quest/metavr", "mcp", "server"]
     }
   }
 }
